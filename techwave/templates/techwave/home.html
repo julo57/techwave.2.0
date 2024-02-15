@@ -1,1 +1,34 @@
-<h1>klrow</h1>
+{% load i18n %} <!-- For translations -->
+
+<div class="shop1">
+    {% if displayed_products %}
+        <div class="image-container">
+            <img src="{{ page }}" alt="{% trans 'Promotional' %}"/>
+        </div>
+
+        <!-- Section with products -->
+        <div class="products-section">
+            <div class="products1">
+                {% for product in displayed_products %}
+                    <div key="{{ product.id }}">
+                        <!-- Render your product details here -->
+                        <h2>{{ product.name }}</h2>
+                        <h2>{{ product.description }}</h2>
+                        <h2>{{ product.price }}</h2>
+
+                        <img src="{{ product.image }}" alt="{{ product.name }}"/>
+                       
+
+                        <!-- Add more product details as needed -->
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        {% if error %}
+            <div>Error: {{ error }}</div>
+        {% else %}
+            <div>Loading...</div>
+        {% endif %}
+    {% endif %}
+</div>
