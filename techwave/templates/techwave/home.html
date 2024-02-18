@@ -1,11 +1,9 @@
 {% load i18n %} <!-- For translations -->
+{% include 'navbar.html' %}
 
 <div class="shop1">
     {% if displayed_products %}
-        <div class="image-container">
-            <img src="{{ page }}" alt="{% trans 'Promotional' %}"/>
-        </div>
-
+        
         <!-- Section with products -->
         <div class="products-section">
             <div class="products1">
@@ -18,7 +16,6 @@
 
                         <img src="{{ product.image }}" alt="{{ product.name }}"/>
                        
-
                         <!-- Add more product details as needed -->
                     </div>
                 {% endfor %}

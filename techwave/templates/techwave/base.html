@@ -1,0 +1,17 @@
+<!-- Przykład szablonu bazowego (base.html) -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Mój Projekt Django</title>
+</head>
+<body>
+  
+  <!-- Zawartość strony -->
+  {% include 'navbar.html' %}
+  {% block content %}
+    
+    <h1>Base</h1>
+    
+   {% endblock %}
+</body>
+</html>

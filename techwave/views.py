@@ -16,3 +16,15 @@ def home(request):
 
     # Make sure to adjust 'Techwave/home.html' to the correct path if necessary
     return render(request, 'Techwave/home.html', context)
+
+def base (request):
+    context = {'title': 'Base'}
+    return render(request, 'Techwave/base.html', context)
+
+def login (request):
+    context = {'title': 'Login'}
+    return render(request, 'techwave/Login & Register/login.html')
+
+def register (request):
+    context = {'title': 'Register'}
+    return render(request, 'techwave/Login & Register/register.html')
