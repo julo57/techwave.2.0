@@ -1,16 +1,11 @@
-<!-- templates/navbar.html -->
-<nav>
-    <ul>
-      <li><a href="{% url 'base' %}">Strona Główna</a></li>
-      <li><a href="{% url 'login' %}">Login</a></li>
-      <li><a href="{% url 'register' %}">Rejestracja</a></li>
-      <li></li>
-      
-     
-      <li></li>
-
-      
-  
-    </ul>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+<div class="navbar"> <!-- Zmieniono z navbarr na navbar -->
+  <nav>
+      <ul>
+        <li><a href="{% url 'base' %}">Strona Główna</a></li>
+        <li><a href="{% url 'login' %}">Login</a></li>
+        <li><a href="{% url 'register' %}">Rejestracja</a></li>
+      </ul>
   </nav>
-  
+</div>
