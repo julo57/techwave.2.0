@@ -6,7 +6,10 @@
         <p>Witaj, {{ user.username }}!</p>
         <p>Email: {{ user.email }}</p>
         <!-- Tutaj możesz dodać więcej informacji o użytkowniku -->
-        <a href="{% url 'logout' %}">Wyloguj się</a>
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+        </form>
     {% else %}
         <p>Nie jesteś zalogowany.</p>
         <a href="{% url 'login' %}">Zaloguj się</a>
