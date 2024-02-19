@@ -10,14 +10,45 @@
           <i class="fas fa-user"></i> 
         </a></li>
         <li><a href="{% url 'login' %}">
+<<<<<<< HEAD
           <i class="fas fa-scale-unbalanced-flip"></i>
         </a></li>
         <li><a href="{% url 'productsite' %}"> 
+=======
+          <i class="fas fa-solid fa-ruler"></i>     
+          </a></li>
+        <li><a href="{% url 'login' %}"> 
+>>>>>>> 9c21ede7268f899b31684237f52114b27f3394bf
           <i class="fas fa-shopping-cart"></i> 
         </a></li>
         <li><a href="{% url 'register' %}"> 
           <i class="fas fa-microphone"></i>
         </a></li>
+        <li><button id="themeButton"><i class="fas fa-circle"></i></button></li> <!-- Przycisk zmiany motywu z ikoną -->
       </ul>
   </nav>
+  
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var body = document.querySelector('body');
+    var themeButton = document.getElementById('themeButton');
+
+    // Funkcja do zmiany motywu
+    function changeTheme() {
+        body.classList.toggle('dark-theme'); // Przełącz klasę CSS 'dark-theme'
+        var isDarkTheme = body.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light'); // Zapisz preferencję motywu do Local Storage
+    }
+
+    // Obsługa kliknięcia przycisku zmiany motywu
+    themeButton.addEventListener('click', changeTheme);
+
+    // Sprawdzenie, czy w Local Storage jest zapisana preferencja dotycząca motywu
+    var savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'dark') {
+        body.classList.add('dark-theme'); // Dodaj klasę CSS 'dark-theme', jeśli motyw ciemny jest preferowany
+    }
+});
+</script>

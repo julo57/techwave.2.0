@@ -1,0 +1,11 @@
+/* Style dla motywu domyślnego */
+body {
+    background-color: #b7b7b7;
+    color: #000000;
+}
+
+/* Style dla motywu ciemnego */
+.dark-theme {
+    background-color: rgb(44, 44, 44) !important;
+    color: #fff !important;
+}
