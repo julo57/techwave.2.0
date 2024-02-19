@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from .models import Product
 import random
+from django.shortcuts import render, redirect
+
+from .forms import SignUpForm
 
 def home(request):
     context = {'title': 'Home'}  # Include title in the context
@@ -25,10 +28,23 @@ def login (request):
     context = {'title': 'Login'}
     return render(request, 'techwave/Login & Register/login.html')
 
-def register (request):
-    context = {'title': 'Register'}
-    return render(request, 'techwave/Login & Register/register.html')
-
+def register(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Logika po pomyślnej rejestracji, np. automatyczne logowanie lub przekierowanie
+            return redirect('login')  # Przekieruj do strony logowania po pomyślnej rejestracji
+    else:
+        form = SignUpForm()
+    return render(request, 'techwave/Login & Register/register.html', {'form': form})
 def chek (request):
     context = {'title': 'Chek'}
     return render(request, 'techwave/check.html')
+
+def logout (request):
+    context = {'title': 'Logout'}
+    return render(request, 'techwave/logout.html')
+def login (request):
+    context = {'title': 'Login'}
+    return render(request, 'techwave/Login & Register/login.html')

@@ -9,7 +9,7 @@ urlpatterns = [
    path('register', views.register, name='register'),
    path('chek', views.chek, name='chek'),
 
-   path('login/', auth_views.LoginView.as_view(), name='login'),
+   path('login', auth_views.LoginView.as_view(), name='login'),
     # Wylogowanie
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     # Zmiana hasła
