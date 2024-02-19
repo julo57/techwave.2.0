@@ -2,6 +2,7 @@ from django.shortcuts import render
 from .models import Product
 import random
 from django.shortcuts import render, redirect
+from django.contrib.auth import login as auth_login
 
 from .forms import SignUpForm
 
@@ -33,11 +34,13 @@ def register(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # Logika po pomyślnej rejestracji, np. automatyczne logowanie lub przekierowanie
-            return redirect('login')  # Przekieruj do strony logowania po pomyślnej rejestracji
+            auth_login(request, user)  # Logowanie użytkownika zaraz po rejestracji
+            return redirect('main')  # Przekierowanie do strony głównej
     else:
         form = SignUpForm()
     return render(request, 'techwave/Login & Register/register.html', {'form': form})
+
+
 def chek (request):
     context = {'title': 'Chek'}
     return render(request, 'techwave/check.html')
@@ -48,3 +51,7 @@ def logout (request):
 def login (request):
     context = {'title': 'Login'}
     return render(request, 'techwave/Login & Register/login.html')
+
+def productsite(request):
+    context = {'title': 'Productsite'}
+    return render(request, 'techwave/productsite.html')
