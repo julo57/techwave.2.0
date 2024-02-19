@@ -2,7 +2,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
 
+  <link rel="stylesheet" href="{% static 'css/footer.css' %}">
   <title>Mój Projekt Django</title>
 </head>
 <body>
@@ -10,9 +13,12 @@
   <!-- Zawartość strony -->
   {% include 'navbar.html' %}
   {% block content %}
-    
-    <h1>Base</h1>
-    
+  
+
+  
+ 
+
    {% endblock %}
+   {% include 'footer.html' %}
 </body>
 </html>

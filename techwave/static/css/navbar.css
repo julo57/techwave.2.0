@@ -14,7 +14,16 @@ nav ul li a {
 }
 
 .navbar { 
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
   color: #fff;
   background-color: #333; 
   text-align: center;
+  
+
+}
+body {
+  margin-top: 60px; /* Wartość powinna być większa niż wysokość Twojego navbaru */
 }

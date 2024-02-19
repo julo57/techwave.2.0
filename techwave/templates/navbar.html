@@ -1,11 +1,23 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
-<div class="navbar"> <!-- Zmieniono z navbarr na navbar -->
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+<div class="navbar">
   <nav>
       <ul>
-        <li><a href="{% url 'base' %}">Strona Główna</a></li>
-        <li><a href="{% url 'login' %}">Login</a></li>
-        <li><a href="{% url 'register' %}">Rejestracja</a></li>
+        <li><a href="{% url 'main' %}">Strona Główna</a></li>
+        <li><a href="{% url 'login' %}">
+          <i class="fas fa-user"></i> 
+        </a></li>
+        <li><a href="{% url 'login' %}">
+          <i class="fas fa-scale-unbalanced-flip"></i>
+        </a></li>
+        <li><a href="{% url 'login' %}"> 
+          <i class="fas fa-shopping-cart"></i> 
+        </a></li>
+        <li><a href="{% url 'login' %}"> 
+          <i class="fas fa-microphone"></i>
+        </a></li>
       </ul>
   </nav>
 </div>
