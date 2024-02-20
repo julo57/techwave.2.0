@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+
 from .models import Product
 import random
 from django.shortcuts import render, redirect
@@ -54,4 +55,13 @@ def login (request):
 
 def productsite(request):
     context = {'title': 'Productsite'}
-    return render(request, 'techwave/productsite.html')
+    try:
+        # Pobranie produktu o id 1 lub zwrócenie 404 jeśli nie istnieje
+        product = get_object_or_404(Product, id=1)
+        context['product'] = product
+        context['error'] = None
+    except Exception as e:
+        context['error'] = str(e)
+        context['product'] = None
+
+    return render(request, 'techwave/productsite.html', context)
