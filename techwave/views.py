@@ -57,7 +57,7 @@ def productsite(request):
     context = {'title': 'Productsite'}
     try:
         # Pobranie produktu o id 1 lub zwrócenie 404 jeśli nie istnieje
-        product = get_object_or_404(Product, id=1)
+        product = get_object_or_404(Product, id=2)
         context['product'] = product
         context['error'] = None
     except Exception as e:
