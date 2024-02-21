@@ -1,6 +1,17 @@
 {% extends 'base.html' %}
+
 {% block content %}
-    <h1>productsite</h1>
-    <p>Welcome to the home page</p>
+    <section class="product">
+        <div class="container">
+            <div class="product-details">
+                <h1 class="product-name">{{product.name}}</h1>
+                <p class="product-price">{{product.price}}</p>
+                <button class="btn btn-primary">Add to Cart</button>
+                <p class="product-description">{{product.description}}</p>
+            </div>
+            <div class="product-image">
+                <img src="{{product.image.url}}" alt="Product Image">
+            </div>
+        </div>
+    </section>
 {% endblock %}
-```
