@@ -1,12 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Witaj na stronie głównej!</h1>
+<h1>Witaj na stronie Profilowej !</h1>
     {% if user.is_authenticated %}
         <p>Witaj, {{ user.username }}!</p>
         <p>Email: {{ user.email }}</p>
-        <!-- Tutaj możesz dodać więcej informacji o użytkowniku -->
+        <p>Data utworzenia konta: {{ user.date_joined }}</p>
         <form method="post" action="{% url 'logout' %}">
+            <button>Twoje komentarze</button> <br>
+            <button>Twoje zamówienia</button><br>
+            
             {% csrf_token %}
             <button type="submit">logout</button>
         </form>

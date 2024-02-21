@@ -65,3 +65,8 @@ def productsite(request):
         context['product'] = None
 
     return render(request, 'techwave/productsite.html', context)
+
+
+def profile(request):
+    context = {'title': 'Profile'}
+    return render(request, 'techwave/profile.html', context)    
