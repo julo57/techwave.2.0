@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Witaj na stronie głównej!</h1>
+    {% if user.is_authenticated %}
+        <p>Witaj, {{ user.username }}!</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Tutaj możesz dodać więcej informacji o użytkowniku -->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+        </form>
+    {% else %}
+        <p>Nie jesteś zalogowany.</p>
+        <a href="{% url 'login' %}">Zaloguj się</a>
+    {% endif %}
+{% endblock %}
