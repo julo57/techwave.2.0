@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <section class="cart">
+        <div class="container">
+            <h1>Your Shopping Cart</h1>
+            <ul class="cart-items" id="cart-items">
+                <!-- Produkty zostaną wyświetlone tutaj -->
+            </ul>
+        </div>
+    </section>
+
+
+    <script>
+        // Pobierz koszyk z localStorage
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        var cartItemsElement = document.getElementById('cart-items');
+    
+        // Funkcja usuwająca produkt z koszyka i odświeżająca wyświetlanie
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            displayCart();
+        }
+    
+        // Funkcja wyświetlająca produkty w koszyku
+        function displayCart() {
+            cartItemsElement.innerHTML = ''; // Wyczyść zawartość przed aktualizacją
+    
+            cart.forEach(function(product, index) {
+                var li = document.createElement('li');
+    
+                // Tworzenie elementu obrazu
+                var img = document.createElement('img');
+                img.src = product.image;
+                img.alt = product.name;
+                img.style.width = '50px'; // Dostosuj rozmiar obrazu
+    
+                // Tworzenie elementów nazwy, ceny i przycisku usuwania
+                var name = document.createElement('span');
+                name.textContent = product.name;
+    
+                var price = document.createElement('span');
+                price.textContent = product.price;
+    
+                var removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.onclick = function() {
+                    removeFromCart(index);
+                };
+    
+                // Dodanie wszystkich elementów do elementu <li>
+                li.appendChild(img);
+                li.appendChild(name);
+                li.appendChild(price);
+                li.appendChild(removeButton);
+    
+                // Dodanie <li> do listy
+                cartItemsElement.appendChild(li);
+            });
+        }
+    console.log(cart);
+        // Wyświetl produkty w koszyku po załadowaniu strony
+        displayCart();
+    </script>
+{% endblock %}
