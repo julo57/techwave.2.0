@@ -69,4 +69,5 @@ button:hover {
 /* Dostosowanie marginesu górnego treści, aby nie była zakrywana przez navbar */
 body {
   margin-top: 60px; /* Dostosuj wartość w zależności od wysokości Twojego navbara */
+  
 }
