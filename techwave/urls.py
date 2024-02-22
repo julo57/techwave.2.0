@@ -9,7 +9,11 @@ urlpatterns = [
    path('register', views.register, name='register'),
    path('chek', views.chek, name='chek'),
    path('productsite', views.productsite, name='productsite'),
+
+   path('cart', views.cart, name='cart'),
+
    path('profile', views.profile, name='profile'),
+
 
    # Logowanie używając wbudowanego widoku
    path('login', auth_views.LoginView.as_view(template_name='techwave/Login & Register/login.html'), name='login'),

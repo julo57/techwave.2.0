@@ -4,14 +4,51 @@
     <section class="product">
         <div class="container">
             <div class="product-details">
-                <h1 class="product-name">{{product.name}}</h1>
-                <p class="product-price">{{product.price}}</p>
-                <button class="btn btn-primary">Add to Cart</button>
-                <p class="product-description">{{product.description}}</p>
+                <h1 class="product-name">{{ product.name }}</h1>
+                <p class="product-price">{{ product.price }}</p>
+                <button id="add-to-cart" class="btn btn-primary" data-id="{{ product.id }}">Add to Cart</button>
+                <p class="product-description">{{ product.description }}</p>
             </div>
             <div class="product-image">
-                <img src="{{product.image.url}}" alt="Product Image">
+                <img src="{{ product.image.url }}" alt="Product Image">
             </div>
         </div>
     </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Pobranie przycisku "Add to Cart"
+            var addToCartButton = document.getElementById('add-to-cart');
+
+            // Dodanie nasłuchiwacza zdarzeń na kliknięcie przycisku
+            addToCartButton.addEventListener('click', function() {
+                // Pobranie identyfikatora produktu
+                var productId = addToCartButton.getAttribute('data-id');
+
+                // Pobranie informacji o produkcie
+                var productName = "{{ product.name }}";
+                var productPrice = "{{ product.price }}";
+                var productImage = "{{ product.image.url }}";
+
+                // Sprawdź, czy koszyk istnieje w localStorage
+                var cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                // Dodanie produktu do koszyka
+                var product = {
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    image: productImage
+                };
+                cart.push(product);
+
+                // Zapisanie koszyka w localStorage
+                localStorage.setItem('cart', JSON.stringify(cart));
+
+                // Powiadomienie użytkownika o dodaniu produktu do koszyka
+                alert('Product added to cart');
+            });
+        });
+    </script>
 {% endblock %}
+
