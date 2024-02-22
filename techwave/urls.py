@@ -9,12 +9,16 @@ urlpatterns = [
    path('register', views.register, name='register'),
    path('chek', views.chek, name='chek'),
    path('productsite', views.productsite, name='productsite'),
+<<<<<<< HEAD
    path('cart', views.cart, name='cart'),
+=======
+   path('profile', views.profile, name='profile'),
+>>>>>>> 5977fb20086c5cb9f8271cc1e3654428a2b47549
 
    # Logowanie używając wbudowanego widoku
    path('login', auth_views.LoginView.as_view(template_name='techwave/Login & Register/login.html'), name='login'),
    # Wylogowanie
-   path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+   path('logout', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
    # Zmiana hasła
    path('password_change/', auth_views.PasswordChangeView.as_view(), name='password_change'),
    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(), name='password_change_done'),

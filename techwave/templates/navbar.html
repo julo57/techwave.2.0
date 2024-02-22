@@ -5,19 +5,41 @@
 <div class="navbar">
   <nav>
       <ul>
+        <form action="/search/" method="get">
+          <input type="text" name="q" placeholder="Szukaj...">
+          <button type="submit">Szukaj</button>
+        </form>
+
         <li><a href="{% url 'main' %}">Strona Główna</a></li>
+<<<<<<< HEAD
         <li><a href="{% url 'login' %}">
           <i class="fas fa-user"></i> 
         </a></li>
+=======
+>>>>>>> 5977fb20086c5cb9f8271cc1e3654428a2b47549
         
+        {% if user.is_authenticated %}
+          <li><a href="{% url 'profile' %}">
+            <i class="fas fa-user"></i> 
+          </a></li>
+        {% else %}
+          <li><a href="{% url 'login' %}">
+            <i class="fas fa-user"></i> 
+          </a></li>
+        {% endif %}
+ 
         <li><a href="{% url 'productsite' %}"> 
-
           <i class="fas fa-solid fa-ruler"></i>     
         </a></li>
 
+<<<<<<< HEAD
         <li><a href="{% url 'cart' %}"> 
 
           <i class="fas fa-shopping-cart"></i>     
+=======
+        <li><a href="{% url 'login' %}"> 
+          <i class="fas fa-shopping-cart"></i> 
+>>>>>>> 5977fb20086c5cb9f8271cc1e3654428a2b47549
         </a></li>
 
         <li><a href="{% url 'register' %}"> 
@@ -50,4 +72,4 @@ document.addEventListener('DOMContentLoaded', function() {
         body.classList.add('dark-theme'); // Dodaj klasę CSS 'dark-theme', jeśli motyw ciemny jest preferowany
     }
 });
-</script>
+</script
