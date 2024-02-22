@@ -11,12 +11,11 @@
         </form>
 
         <li><a href="{% url 'main' %}">Strona Główna</a></li>
-<<<<<<< HEAD
+
         <li><a href="{% url 'login' %}">
           <i class="fas fa-user"></i> 
         </a></li>
-=======
->>>>>>> 5977fb20086c5cb9f8271cc1e3654428a2b47549
+
         
         {% if user.is_authenticated %}
           <li><a href="{% url 'profile' %}">
@@ -32,15 +31,12 @@
           <i class="fas fa-solid fa-ruler"></i>     
         </a></li>
 
-<<<<<<< HEAD
+
         <li><a href="{% url 'cart' %}"> 
 
           <i class="fas fa-shopping-cart"></i>     
-=======
-        <li><a href="{% url 'login' %}"> 
-          <i class="fas fa-shopping-cart"></i> 
->>>>>>> 5977fb20086c5cb9f8271cc1e3654428a2b47549
-        </a></li>
+
+        
 
         <li><a href="{% url 'register' %}"> 
           <i class="fas fa-microphone"></i>

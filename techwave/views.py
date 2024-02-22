@@ -71,7 +71,7 @@ def productsite(request):
 
     return render(request, 'techwave/productsite.html', context)
 
-<<<<<<< HEAD
+
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
@@ -104,9 +104,9 @@ def cart(request):
     total_price = sum(item.product.price * item.quantity for item in cart_items)
     
     return render(request, 'techwave/cart.html', {'cart_items': cart_items, 'total_price': total_price})
-=======
+
 
 def profile(request):
     context = {'title': 'Profile'}
     return render(request, 'techwave/profile.html', context)    
->>>>>>> 5977fb20086c5cb9f8271cc1e3654428a2b47549
+
