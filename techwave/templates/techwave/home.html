@@ -1,32 +1,17 @@
-{% load i18n %} <!-- For translations -->
-{% include 'navbar.html' %}
+{% extends 'base.html' %}
 
-<div class="shop1">
-    {% if displayed_products %}
-        
-        <!-- Section with products -->
-        <div class="products-section">
-            <div class="products1">
-                
-                {% for product in displayed_products %}
-                    <div key="{{ product.id }}">
-                        <!-- Render your product details here -->
-                        <h2>{{ product.name }}</h2>
-                        <h2>{{ product.description }}</h2>
-                        <h2>{{ product.price }}</h2>
-
-                        <img src="{{ product.image }}" alt="{{ product.name }}"/>
-                       
-                        <!-- Add more product details as needed -->
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
+{% block content %}
+<h1>Witaj na stronie głównej!</h1>
+    {% if user.is_authenticated %}
+        <p>Witaj, {{ user.username }}!</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Tutaj możesz dodać więcej informacji o użytkowniku -->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+        </form>
     {% else %}
-        {% if error %}
-            <div>Error: {{ error }}</div>
-        {% else %}
-            <div>Loading...</div>
-        {% endif %}
+        <p>Nie jesteś zalogowany.</p>
+        <a href="{% url 'login' %}">Zaloguj się</a>
     {% endif %}
-</div>
+{% endblock %}
