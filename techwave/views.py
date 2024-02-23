@@ -7,7 +7,7 @@ from django.contrib.auth import login as auth_login
 from .models import Cart, CartItem
 from django.contrib import messages
 from django.http import HttpResponse
-
+from .forms import FakePaymentForm
 
 
 from .forms import SignUpForm
@@ -109,4 +109,26 @@ def cart(request):
 def profile(request):
     context = {'title': 'Profile'}
     return render(request, 'techwave/profile.html', context)    
+
+
+
+def payment(request):
+    if request.method == 'POST':
+        form = FakePaymentForm(request.POST)
+        if form.is_valid():
+            # Tutaj możesz przetworzyć symulowaną płatność
+            form.save()
+            return redirect('success_url')  # Przekieruj do strony sukcesu
+    else:
+        form = FakePaymentForm()
+     # Get the cart for the current user or create one if it doesn't exist
+        
+    cart, create = Cart.objects.get_or_create(user=request.user)
+    
+    # Retrieve all cart items for the current cart
+    cart_items = cart.cartitem_set.all()
+    
+    # Calculate the total price of all items in the cart
+    total_price = sum(item.product.price * item.quantity for item in cart_items)
+    return render(request, 'techwave/Payments/payment.html', {'cart_items': cart_items, 'total_price': total_price,'form': form})
 

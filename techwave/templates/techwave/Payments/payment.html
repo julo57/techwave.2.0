@@ -1,7 +1,63 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Payment!</h1>
-    
 
+<h1>Payment!</h1>
+
+<section class="Payment">
+    <div class="container">
+        <ul class="/payment-items" id="payment-items">
+            <!-- Produkty zostaną wyświetlone tutaj -->
+        </ul>
+    </div>
+</section>
+<script>
+    // Pobierz koszyk z localStorage
+    var cart = JSON.parse(localStorage.getItem('cart')) || [];
+    var cartItemsElement = document.getElementById('payment-items');
+
+    // Funkcja usuwająca produkt z koszyka i odświeżająca wyświetlanie
+   
+
+    // Funkcja wyświetlająca produkty w koszyku
+    function displayPayment() {
+        cartItemsElement.innerHTML = ''; // Wyczyść zawartość przed aktualizacją
+
+        cart.forEach(function(product, index) {
+            var li = document.createElement('li');
+            li.classList.add('cart-item');
+
+            // Tworzenie elementu obrazu
+            var img = document.createElement('img');
+            img.src = product.image;
+            img.alt = product.name;
+            img.classList.add('product-image'); // Dodaj klasę do obrazka
+
+            // Tworzenie elementów nazwy, ceny i przycisku usuwania
+            var name = document.createElement('span');
+            name.textContent = product.name;
+            name.classList.add('product-name'); // Dodaj klasę do nazwy
+
+            var price = document.createElement('span');
+            price.textContent = product.price;
+            price.classList.add('product-price'); // Dodaj klasę do ceny
+
+            // Dodanie wszystkich elementów do elementu <li>
+            li.appendChild(img);
+            li.appendChild(name);
+            li.appendChild(price);
+            
+            // Dodanie <li> do listy
+            cartItemsElement.appendChild(li);
+        });
+    }
+
+    // Wyświetl produkty w koszyku po załadowaniu strony
+    displayPayment();
+</script>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Zapłać</button>
+</form>
 {% endblock %}

@@ -65,12 +65,35 @@
     // Wyświetl produkty w koszyku po załadowaniu strony
     displayCart();
 </script>
+
 <div class="container">
     <div class="cart-buttons">
         <button class="checkout-button">Przejdź do kasy</button>
         <button class="continue-shopping-button">Kontynuuj zakupy</button>
     </div>
 </div>
+
+
+<script>
+    // Pobierz przyciski
+    var checkoutButton = document.querySelector('.checkout-button');
+    var continueShoppingButton = document.querySelector('.continue-shopping-button');
+
+    // Przycisk "Przejdź do kasy"
+    checkoutButton.onclick = function() {
+        // Przekieruj do strony kasy
+        window.location.href = '/payment';
+    };
+
+    // Przycisk "Kontynuuj zakupy"
+    continueShoppingButton.onclick = function() {
+        // Przekieruj do strony głównej
+        window.location.href = '/productsite';
+    };
+
+    
+
+</script>
 
 {% endblock %}
 
