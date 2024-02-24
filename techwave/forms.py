@@ -46,4 +46,8 @@ class ProductForm(forms.ModelForm):
 class FakePaymentForm(forms.ModelForm):
     class Meta:
         model = FakePayment
+<<<<<<< HEAD
         fields = ['amount', 'description', 'name', 'last_name', 'email', 'phone']
+=======
+        fields = ['name', 'last_name', 'email', 'phone']
+>>>>>>> 63a01e0268cac68a7969786816dc3c54e394924f
