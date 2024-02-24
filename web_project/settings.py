@@ -32,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'livereload',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    
+    "phonenumber_field",
     'techwave',
     
 ]
@@ -53,7 +53,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'livereload.middleware.LiveReloadScript',
+
     
     
 ]
@@ -130,6 +130,11 @@ USE_TZ = True
 
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [
+    'techwave\static',
+]
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 Media_URL = '/media/'

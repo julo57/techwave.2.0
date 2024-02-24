@@ -1,25 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
-<head>
-    <link rel="stylesheet" href="{% static 'css/productsite.css' %}">
-</head>
-
 
 {% block content %}
+<head>
+    <link rel="stylesheet" href="static/css/productsite.css">
+</head>
 
-    <section class="product">
-        <div class="container">
-            <div class="product-details">
-                <h1 class="product-name">{{ product.name }}</h1>
-                <p class="product-price">{{ product.price }}</p>
-                <button id="add-to-cart" class="btn btn-primary" data-id="{{ product.id }}">Add to Cart</button>
-                <p class="product-description">{{ product.description }}</p>
-            </div>
+<section class="product">
+    <div class="container">
+        <h1 class="product-name">{{ product.name }}</h1>
+        <div class="product-details"> 
             <div class="product-image">
                 <img src="{{ product.image.url }}" alt="Product Image">
             </div>
+            <div class="product-info">
+                <p class="product-price">{{ product.price }}</p>
+                <button id="add-to-cart" class="btn btn-primary" data-id="{{ product.id }}">Dodaj do koszyka</button>
+            </div>
+           
         </div>
-    </section>
+        <div class="product-description">
+            <p>{{ product.description }}</p>
+        </div>
+    </div>
+</section>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
