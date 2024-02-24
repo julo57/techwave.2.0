@@ -2,19 +2,27 @@
 
 {% block content %}
 <h1>Witaj na stronie Profilowej !</h1>
-    {% if user.is_authenticated %}
-        <p>Witaj, {{ user.username }}!</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Data utworzenia konta: {{ user.date_joined }}</p>
-        <form method="post" action="{% url 'logout' %}">
-            <button>Twoje komentarze</button> <br>
-            <button>Twoje zamówienia</button><br>
-            
-            {% csrf_token %}
-            <button type="submit">logout</button>
-        </form>
-    {% else %}
-        <p>Nie jesteś zalogowany.</p>
-        <a href="{% url 'login' %}">Zaloguj się</a>
-    {% endif %}
+
+    <p>Witaj, {{ user.username }}!</p>
+    <p>Email: {{ user.email }}</p>
+    <p>Data utworzenia konta: {{ user.date_joined }}</p>
+    <button>Twoje komentarze</button> <br>
+    <button  >Twoje zamówienia</button><br>
+    <!-- Usunięto przyciski zmiany nazwy użytkownika i email, ponieważ wymagałyby dodatkowej logiki backendowej -->
+
+    <!-- Link do zmiany hasła -->
+    <a href="{% url 'password_change' %}">Zmień hasło</a><br>
+
+    <!-- Link do resetowania hasła (opcjonalnie, może być użyteczne, jeśli chcesz umożliwić użytkownikom inicjowanie resetowania hasła z poziomu profilu) -->
+    <a href="{% url 'password_reset' %}">Resetuj hasło</a><br>
+
+    <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit">Wyloguj</button>
+    </form>
+
+    <h1>Twoje zamówienia</h1>
+    załadowane zamówienia
+    {{zamowienia}}
+
 {% endblock %}
