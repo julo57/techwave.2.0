@@ -48,7 +48,7 @@ class FakePaymentForm(forms.ModelForm):
     class Meta:
         model = FakePayment
 
-        fields = ['amount', 'description', 'name', 'last_name', 'email', 'phone']
+       
 
         fields = ['name', 'last_name', 'email', 'phone']
 

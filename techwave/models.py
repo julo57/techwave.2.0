@@ -37,8 +37,6 @@ class FakePayment(models.Model):
     email = models.EmailField(max_length=254, blank=True, default='')
     phone = PhoneNumberField(blank=True, null=True)  # Consider if null is really needed
 
-    amount = models.DecimalField(max_digits=6, decimal_places=2)
-    description = models.CharField(max_length=255, blank=False)
 
 
    
