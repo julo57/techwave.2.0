@@ -131,6 +131,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = [
+    'techwave\static',
+]
+
+
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 Media_URL = '/media/'
 

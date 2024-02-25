@@ -61,7 +61,7 @@ def productsite(request):
     context = {'title': 'Productsite'}
     try:
         # Pobranie produktu o id 1 lub zwrócenie 404 jeśli nie istnieje
-        product = get_object_or_404(Product, id=2)
+        product = get_object_or_404(Product, id=10)
         context['product'] = product
         context['error'] = None
     except Exception as e:
@@ -94,7 +94,7 @@ def remove_from_cart(request, cart_item_id):
 
 def cart(request):
     # Get the cart for the current user or create one if it doesn't exist
-    cart, created = Cart.objects.get_or_create(user=request.user)
+    cart, created = Cart.objects.get_or_create()
     
     # Retrieve all cart items for the current cart
     cart_items = cart.cartitem_set.all()

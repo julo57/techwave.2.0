@@ -1,6 +1,17 @@
-{% load i18n %} <!-- For translations -->
-{% include 'navbar.html' %}
+{% extends 'base.html' %}
 
+<<<<<<< HEAD
+{% block content %}
+<h1>Witaj na stronie głównej!</h1>
+    {% if user.is_authenticated %}
+        <p>Witaj, {{ user.username }}!</p>
+        <p>Email: {{ user.email }}</p>
+        <!-- Tutaj możesz dodać więcej informacji o użytkowniku -->
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">logout</button>
+        </form>
+=======
 <div class="shop1">
     {% if displayed_products %}
         
@@ -23,11 +34,9 @@
                 {% endfor %}
             </div>
         </div>
+>>>>>>> 63a01e0268cac68a7969786816dc3c54e394924f
     {% else %}
-        {% if error %}
-            <div>Error: {{ error }}</div>
-        {% else %}
-            <div>Loading...</div>
-        {% endif %}
+        <p>Nie jesteś zalogowany.</p>
+        <a href="{% url 'login' %}">Zaloguj się</a>
     {% endif %}
-</div>
+{% endblock %}
