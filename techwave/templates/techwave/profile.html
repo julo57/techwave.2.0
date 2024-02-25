@@ -1,28 +1,33 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Witaj na stronie Profilowej !</h1>
+<h1>Witaj na stronie profilowej!</h1>
 
-    <p>Witaj, {{ user.username }}!</p>
-    <p>Email: {{ user.email }}</p>
-    <p>Data utworzenia konta: {{ user.date_joined }}</p>
-    <button>Twoje komentarze</button> <br>
-    <button  >Twoje zamówienia</button><br>
-    <!-- Usunięto przyciski zmiany nazwy użytkownika i email, ponieważ wymagałyby dodatkowej logiki backendowej -->
+<p>Witaj, {{ user.username }}!</p>
+<p>Email: {{ user.email }}</p>
+<p>Data utworzenia konta: {{ user.date_joined }}</p>
+<button>Twoje komentarze</button> <br>
+<button>Twoje zamówienia</button><br>
 
-    <!-- Link do zmiany hasła -->
-    <a href="{% url 'password_change' %}">Zmień hasło</a><br>
+<a href="{% url 'password_change' %}">Zmień hasło</a><br>
+<a href="{% url 'password_reset' %}">Resetuj hasło</a><br>
 
-    <!-- Link do resetowania hasła (opcjonalnie, może być użyteczne, jeśli chcesz umożliwić użytkownikom inicjowanie resetowania hasła z poziomu profilu) -->
-    <a href="{% url 'password_reset' %}">Resetuj hasło</a><br>
+<form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Wyloguj</button>
+</form>
 
-    <form method="post" action="{% url 'logout' %}">
-        {% csrf_token %}
-        <button type="submit">Wyloguj</button>
-    </form>
+<h2>Twoje zamówienia</h2>
+{% if zamowienia %}
+    <ul>
+    {% for zamowienie in zamowienia %}
+        <li>Nazwa produktu {{zamowienie.product_name}}  Zamówienie nr {{ zamowienie.id }} - Data: {{ zamowienie.date }} - Łączna cena: {{ zamowienie.total_price }} zł </li>
 
-    <h1>Twoje zamówienia</h1>
-    załadowane zamówienia
-    {{zamowienia}}
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Nie masz jeszcze żadnych zamówień.</p>
+{% endif %}
 
 {% endblock %}
+o

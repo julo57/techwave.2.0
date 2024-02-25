@@ -1,21 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 
-from .models import Product , Cart, CartItem, FakePayment
+from .models import Product , Cart, CartItem, FakePayment , Order
 import random
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login
 from django.contrib import messages
 from django.http import HttpResponse
-
+from .forms import OrderForm
 from .forms import FakePaymentForm
-
-
 from .forms import SignUpForm
 
 def home(request):
     context = {'title': 'Home'}  # Include title in the context
     try:
         products = list(Product.objects.all())
+        
         random.shuffle(products)  # Shuffle products
         displayed_products = products[:5]  # Select first 5
         context['displayed_products'] = displayed_products
@@ -48,8 +47,8 @@ def register(request):
 
 
 def chek (request):
-    context = {'title': 'Chek'}
-    return render(request, 'techwave/check.html')
+    context = {'title': 'korwa', 'error': 'sss'}
+    return render(request, 'techwave/check.html',context)
 
 def logout (request):
     context = {'title': 'Logout'}
@@ -106,13 +105,6 @@ def cart(request):
     return render(request, 'techwave/cart.html', {'cart_items': cart_items, 'total_price': total_price})
 
 
-def profile(request):
-    if not request.user.is_authenticated:
-        return redirect('main')
-    
-    zamowienia = FakePayment  # Pobierz zamówienia dla zalogowanego użytkownika
-    context = {'title': 'Profile', 'zamowienia': zamowienia}
-    return render(request, 'techwave/profile.html', context)    
 
 
 
@@ -123,6 +115,7 @@ def payment(request):
         if form.is_valid():
             payment = form.save(commit=False)
             payment.user = request.user
+            payment.email = request.user.email
             payment.save()
             # Poprawka: użyj utworzonej instancji płatności do pobrania jej ID
             fake_payment_id = payment.id
@@ -138,13 +131,40 @@ def payment(request):
 
 
 def summation(request, FakePayment_id):
-    # Poprawka: Odkomentuj i popraw linijkę poniżej
+    
     payment = FakePayment.objects.get(id=FakePayment_id)
     cart, created = Cart.objects.get_or_create(user=request.user)
     cart_items = cart.cartitem_set.all()
     total_price = sum(item.product.price * item.quantity for item in cart_items)
-    context = {'payment': payment, 'title': 'Summation', 'summation_id': FakePayment_id
-               ,'cart_items': cart_items, 'total_price': total_price}
+    context = {
+        'payment': payment, 
+        'title': 'Summation', 
+        'summation_id': FakePayment_id, 
+        'cart_items': cart_items, 
+        'total_price': total_price
+    }
     
     return render(request, 'techwave/Payments/summation.html', context)
 
+def order(request):
+    user = request.user
+    total_price = request.POST.get('total_price')
+    quantity = request.POST.get('quantity')
+   
+    product_name = request.POST.get('product_name')
+
+    # Tworzenie nowego zamówienia
+    Order.objects.create(user=user, total_price=total_price, quantity=quantity , product_name=product_name)
+
+    # Przekieruj użytkownika do strony potwierdzenia lub gdziekolwiek indziej
+    return redirect('profile')
+
+
+def profile(request):
+    if not request.user.is_authenticated:
+        return redirect('main')
+    
+    # Pobierz zamówienia dla zalogowanego użytkownika
+    zamowienia = Order.objects.filter(user=request.user)  
+    context = {'title': 'Profile', 'zamowienia': zamowienia}
+    return render(request, 'techwave/profile.html', context)
