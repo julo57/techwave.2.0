@@ -38,6 +38,9 @@ class FakePayment(models.Model):
     phone = PhoneNumberField(blank=True, null=True)  # Consider if null is really needed
 
 
+
+   
+
     def str(self):
         return self.name
    
@@ -47,10 +50,9 @@ class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.IntegerField(default=1)
-    date_ordered =  models.DateTimeField(auto_now_add=True)
-
+    
+    product_name = models.CharField(max_length=255, blank=True, default='')
+    
     def __str__(self):
         return f"Order {self.id} by {self.user.username}"
-    class Meta:
-        ordering = ['-date_ordered']
 

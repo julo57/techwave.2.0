@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from .models import Product, Category
 
 from .models import FakePayment
+from .models import Order   
 
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text=' Wymagane. Podaj ważny adres email.' , required=True )
@@ -47,6 +48,27 @@ class FakePaymentForm(forms.ModelForm):
     class Meta:
         model = FakePayment
 
-        fields = ['amount', 'description', 'name', 'last_name', 'email', 'phone']
+       
 
         fields = ['name', 'last_name', 'email', 'phone']
+
+
+        widgets = {
+            'name': forms.TextInput(attrs={'placeholder': 'Imię'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Nazwisko'}),
+            'email': forms.HiddenInput(),
+            'phone': forms.TextInput(attrs={'placeholder': 'Telefon'}),
+        }
+
+
+class OrderForm(forms.ModelForm):
+    class Meta:
+        model = Order
+        fields = ['user', 'total_price', 'quantity', 'product_name']
+        widgets = {
+            'user': forms.HiddenInput(),
+            'total_price': forms.HiddenInput(),
+            'quantity': forms.HiddenInput(),
+            
+            'product_name': forms.HiddenInput(),
+        }

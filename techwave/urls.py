@@ -13,6 +13,7 @@ urlpatterns = [
    path('profile', views.profile, name='profile'),
    path('payment', views.payment, name='payment'),
    path('summation/<int:FakePayment_id>/', views.summation, name='summation'),
+   path('order', views.order, name='order'),
    path('login', auth_views.LoginView.as_view(template_name='techwave/Login & Register/login.html'), name='login'),
    path('logout', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
    # Zmiana hasła

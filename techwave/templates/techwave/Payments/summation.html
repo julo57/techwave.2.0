@@ -1,64 +1,80 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h1>Potwierdzasz swoje zamówienie</h1>
+<div id="totalPriceDisplay">tutaj twoja cena</div>
 <section class="Payment">
     <div class="container">
-        <ul class="/payment-items" id="payment-items">
+        <ul class="payment-items" id="payment-items">
             <!-- Produkty zostaną wyświetlone tutaj -->
-
-
-            
         </ul>
     </div>
 </section>
-<script>
-    // Pobierz koszyk z localStorage
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
-    var cartItemsElement = document.getElementById('payment-items');
 
-    // Funkcja usuwająca produkt z koszyka i odświeżająca wyświetlanie
-   
-
-    // Funkcja wyświetlająca produkty w koszyku
-    function displayPayment() {
-        cartItemsElement.innerHTML = ''; // Wyczyść zawartość przed aktualizacją
-
-        cart.forEach(function(product, index) {
-            var li = document.createElement('li');
-            li.classList.add('cart-item');
-
-            // Tworzenie elementu obrazu
-            var img = document.createElement('img');
-            img.src = product.image;
-            img.alt = product.name;
-            img.classList.add('product-image'); // Dodaj klasę do obrazka
-
-            // Tworzenie elementów nazwy, ceny i przycisku usuwania
-            var name = document.createElement('span');
-            name.textContent = product.name;
-            name.classList.add('product-name'); // Dodaj klasę do nazwy
-
-            var price = document.createElement('span');
-            price.textContent = product.price;
-            price.classList.add('product-price'); // Dodaj klasę do ceny
-
-            // Dodanie wszystkich elementów do elementu <li>
-            li.appendChild(img);
-            li.appendChild(name);
-            li.appendChild(price);
-            
-            // Dodanie <li> do listy
-            cartItemsElement.appendChild(li);
-        });
-    }
-
-    // Wyświetl produkty w koszyku po załadowaniu strony
-    displayPayment();
-</script>
-<h1>Witaj na stronie głównej!</h1>
 <p>Name: {{ payment.name }}</p>
 <p>Last Name: {{ payment.last_name }}</p>
 <p>Email: {{ payment.email }}</p>
 <p>Phone: {{ payment.phone }}</p>
+
+<form id="orderForm" method="post" action="{% url 'order' %}">
+    {% csrf_token %}
+    <input type="hidden" id="totalPrice" name="total_price">
+    <input type="hidden" id="quantity" name="quantity">
+    <!-- Usunięto pole dla obrazka -->
+    <input type="hidden" id='product_name' name='product_name'>
+    <button type="submit">Potwierdź zamówienie</button>
+</form>
+
+<script>
+    // Pobierz koszyk z localStorage
+    var cart = JSON.parse(localStorage.getItem('cart')) || [];
+    var cartItemsElement = document.getElementById('payment-items');
+    
+    function displayPayment() {
+        cartItemsElement.innerHTML = ''; // Wyczyść zawartość przed aktualizacją
+        var totalPrice = 0; // Zmienna na łączną cenę
+        var totalQuantity = 0; // Zmienna na łączną ilość
+
+        cart.forEach(function(product) {
+            var li = document.createElement('li');
+            li.classList.add('cart-item');
+
+            var img = document.createElement('img');
+            img.src = product.image;
+            img.alt = product.name;
+            img.classList.add('product-image');
+
+            var name = document.createElement('span');
+            name.textContent = product.name;
+            name.classList.add('product-name');
+
+            var price = document.createElement('span');
+            price.textContent = product.price + ' zł';
+            price.classList.add('product-price');
+
+            li.appendChild(img);
+            li.appendChild(name);
+            li.appendChild(price);
+
+            cartItemsElement.appendChild(li);
+            
+            totalPrice += parseFloat(product.price);
+            totalQuantity += 1; // Zakładam, że każdy element w koszyku zwiększa ilość o 1
+        });
+
+        // Wyświetlenie łącznej ceny
+        document.getElementById('totalPriceDisplay').textContent = 'Łączna cena: ' + totalPrice.toFixed(2) + ' zł';
+        // Ustawienie wartości ukrytych pól formularza
+        document.getElementById('totalPrice').value = totalPrice.toFixed(2);
+        document.getElementById('quantity').value = totalQuantity;
+        
+        // Zakładając, że pierwszy produkt w koszyku jest reprezentatywny dla całego zamówienia
+        if (cart.length > 0) {
+            document.getElementById('product_name').value = cart[0].name;
+        }
+    }
+
+    displayPayment();
+</script>
 
 {% endblock %}
