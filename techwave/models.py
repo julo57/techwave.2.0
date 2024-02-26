@@ -36,15 +36,12 @@ class FakePayment(models.Model):
     last_name = models.CharField(max_length=255, blank=True, default='')
     email = models.EmailField(max_length=254, blank=True, default='')
     phone = PhoneNumberField(blank=True, null=True)  # Consider if null is really needed
-<<<<<<< HEAD
-    amount = models.DecimalField(max_digits=6, decimal_places=2)
-    description = models.CharField(max_length=255, blank=False)
 
-=======
+
+    def str(self):
+        return self.name
    
 
-    def __str__(self):
-        return self.name
     
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -56,4 +53,4 @@ class Order(models.Model):
         return f"Order {self.id} by {self.user.username}"
     class Meta:
         ordering = ['-date_ordered']
->>>>>>> 63a01e0268cac68a7969786816dc3c54e394924f
+

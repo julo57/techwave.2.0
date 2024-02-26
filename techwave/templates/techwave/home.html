@@ -1,8 +1,7 @@
 {% extends 'base.html' %}
 
-<<<<<<< HEAD
 {% block content %}
-<h1>Witaj na stronie głównej!</h1>
+    <h1>Witaj na stronie głównej!</h1>
     {% if user.is_authenticated %}
         <p>Witaj, {{ user.username }}!</p>
         <p>Email: {{ user.email }}</p>
@@ -11,30 +10,29 @@
             {% csrf_token %}
             <button type="submit">logout</button>
         </form>
-=======
-<div class="shop1">
-    {% if displayed_products %}
-        
-        <!-- Section with products -->
-        <div class="products-section">
-            <div class="products1">
-                
-                {% for product in displayed_products %}
-                    <div key="{{ product.id }}">
-                        <!-- Render your product details here -->
-                        <h2>{{ product.id }}</h2>
-                        <h2>{{ product.name }}</h2>
-                        <h2>{{ product.description }}</h2>
-                        <h2>{{ product.price }}</h2>
 
-                        <img src="{{ product.image }}" alt="{{ product.name }}"/>
-                       
-                        <!-- Add more product details as needed -->
+        <div class="shop1">
+            {% if displayed_products %} 
+                <!-- Section with products -->
+                <div class="products-section">
+                    <div class="products1">
+                        {% for product in displayed_products %}
+                            <div key="{{ product.id }}">
+                                <!-- Render your product details here -->
+                                <h2>{{ product.id }}</h2>
+                                <h2>{{ product.name }}</h2>
+                                <h2>{{ product.description }}</h2>
+                                <h2>{{ product.price }}</h2>
+                                <img src="{{ product.image }}" alt="{{ product.name }}"/>
+                               
+                                <!-- Add more product details as needed -->
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
-            </div>
+                </div>
+            {% endif %}
         </div>
->>>>>>> 63a01e0268cac68a7969786816dc3c54e394924f
+
     {% else %}
         <p>Nie jesteś zalogowany.</p>
         <a href="{% url 'login' %}">Zaloguj się</a>
