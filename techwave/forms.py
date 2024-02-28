@@ -7,21 +7,49 @@ from .models import Product, Category
 
 from .models import FakePayment
 from .models import Order   
+from .models import Comments
 
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(max_length=254, help_text=' Wymagane. Podaj ważny adres email.' , required=True )
-                             
+    email = forms.EmailField(
+        max_length=254,
+        required=True,
+        widget=forms.EmailInput(attrs={'class': 'form-control-material','id':'email', 'placeholder': ' ', 'autocomplete': 'off'})
+    )
+
+    # Przeniesienie definicji pól password1 i password2 poza Meta
+    password1 = forms.CharField(
+        
+        widget=forms.PasswordInput(attrs={'class': 'form-control-material'}),
+    )
+    password2 = forms.CharField(
+        
+        widget=forms.PasswordInput(attrs={'class': 'form-control-material'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(SignUpForm, self).__init__(*args, **kwargs)
+
+        # Ukrywanie pomocniczych tekstów dla określonych pól
+        for fieldname in ['username', 'password1', 'password2']:
+            self.fields[fieldname].help_text = None
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password1', 'password2')
+        fields = ('username', 'email', 'password1', 'password2')  # Dodanie 'email' do listy pól
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-control-material', 'id':'user', 'placeholder': ' ', 'autocomplete': 'off'}),
+            
+        }
 
     def clean_email(self):
-        email = self.cleaned_data['email']
+        email = self.cleaned_data.get('email')
+        if not email:
+            raise ValidationError("Wymagane. Podaj ważny adres email.")
         if User.objects.filter(email=email).exists():
             raise ValidationError("Ten adres email jest już zarejestrowany.")
         return email
 
+    
 
 
 class ProductForm(forms.ModelForm):
@@ -47,9 +75,6 @@ class ProductForm(forms.ModelForm):
 class FakePaymentForm(forms.ModelForm):
     class Meta:
         model = FakePayment
-
-       
-
         fields = ['name', 'last_name', 'email', 'phone']
 
 
@@ -69,6 +94,13 @@ class OrderForm(forms.ModelForm):
             'user': forms.HiddenInput(),
             'total_price': forms.HiddenInput(),
             'quantity': forms.HiddenInput(),
-            
             'product_name': forms.HiddenInput(),
         }
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comments
+        fields = ['comment']
+        widgets = {
+            'comment': forms.Textarea(attrs={'placeholder': 'Komentarz...'})}
