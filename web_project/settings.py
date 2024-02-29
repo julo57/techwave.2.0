@@ -129,12 +129,13 @@ USE_TZ = True
 
 
 
+import os
+
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    'techwave\static',
+    os.path.join(BASE_DIR, 'techwave', 'static'),
 ]
-
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 Media_URL = '/media/'

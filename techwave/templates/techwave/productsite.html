@@ -24,8 +24,29 @@
         </div>
     </div>
 </section>
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+    {{ form.as_p }}
+    <button type="submit">Dodaj komentarz</button>
+</form>
 
-
+<div class="comments">
+    <h2>Komentarze</h2>
+    {% for comment in comments %}
+        <div class="comment">
+            <p><strong>{{ comment.user.username }}</strong> ({{ comment.created_at }})</p>
+            <p>{{ comment.comment }}</p>
+        </div>
+    {% endfor %}
+</div>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endif %}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Pobranie przycisku "Add to Cart"

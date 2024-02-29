@@ -39,11 +39,6 @@ nav ul li a {
 }
 
 /* Stylizacja formularza wyszukiwania */
-form {
-  display: flex;
-  align-items: center;
-  margin-right: 20px; /* Odstęp od pozostałych elementów, jeśli jest potrzebny */
-}
 
 /* Dostosowanie pól tekstowych i przycisków formularza */
 input[type="text"] {

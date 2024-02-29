@@ -1,0 +1,83 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #eceffc;
+  }
+  
+  .btn {
+    padding: 8px 20px;
+    border-radius: 0;
+    
+
+    }
+  
+    &:hover {
+      background: transparent;
+      box-shadow: 0 0 20px 10px hsla(204, 70%, 53%, 0.5);
+  
+      &::before {
+        transform: translateX(100%);
+      }
+    }
+  
+  
+  .form-input-material {
+    --input-default-border-color: white;
+    --input-border-bottom-color: white;
+    
+    input {
+      color:black;
+    }
+  }
+
+  
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 50px 40px;
+    color: white;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    box-shadow: 0 0.4px 0.4px rgba(128, 128, 128, 0.109),
+      0 1px 1px rgba(128, 128, 128, 0.155),
+      0 2.1px 2.1px rgba(128, 128, 128, 0.195),
+      0 4.4px 4.4px rgba(128, 128, 128, 0.241),
+      0 12px 12px rgba(128, 128, 128, 0.35);
+  
+    h1 {
+      margin: 0 0 24px 0;
+    }
+  
+    
+   
+    
+    .btn {
+      width: 100%;
+      margin: 18px 0 9px 0;
+    }
+  }
+  
+ 
+.form-control-material {
+  position: relative;
+  padding: 8px;
+  border: 1px solid var(--input-default-border-color);
+  margin-bottom: 16px; /* Ustawia margines dolny dla wszystkich elementów */
+  width: 100%; /* Ustawia szerokość na 100% kontenera */
+  box-sizing: border-box; /* Zapewnia, że padding i border są wliczane do szerokości */
+  border-radius: 0;
+}
+
+#user
+{
+  border-radius: 0;
+}
+#email
+{
+  width: 100%;
+  margin-right: 30px;
+}

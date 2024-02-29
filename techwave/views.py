@@ -9,6 +9,7 @@ from django.http import HttpResponse
 from .forms import OrderForm
 from .forms import FakePaymentForm
 from .forms import SignUpForm
+from .forms import CommentForm
 
 def home(request):
     context = {'title': 'Home'}  # Include title in the context
@@ -58,18 +59,29 @@ def login (request):
     return render(request, 'techwave/Login & Register/login.html')
 
 def productsite(request):
-    context = {'title': 'Productsite'}
-    try:
-        # Pobranie produktu o id 1 lub zwrócenie 404 jeśli nie istnieje
-        product = get_object_or_404(Product, id=10)
-        context['product'] = product
-        context['error'] = None
-    except Exception as e:
-        context['error'] = str(e)
-        context['product'] = None
+    product = get_object_or_404(Product, id=10)  # Załóżmy, że to jest ID produktu, którego strona jest wyświetlana.
+    
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.product = product
+            comment.save()
+            messages.success(request, 'Komentarz został dodany.')  # Dodanie wiadomości o sukcesie
+            return redirect(request.path_info)  # Przekierowuje na tę samą stronę, co zapobiega ponownemu przesłaniu formularza przy odświeżeniu
+    else:
+        form = CommentForm()
+
+    comments = product.comments_set.all()  # Pobieranie wszystkich komentarzy dla danego produktu
+    context = {
+        'title': 'Productsite',
+        'product': product,
+        'form': form,
+        'comments': comments,  # Dodajemy komentarze do kontekstu, aby można było je wyświetlić na stronie
+    }
 
     return render(request, 'techwave/productsite.html', context)
-
 
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id)

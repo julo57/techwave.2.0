@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
-<h1>Rejestracja</h1>
-<h2>Zarejestruj się</h2>
-    <form method="post">
+<head>
+    <link rel="stylesheet" href="{% static 'css/form.css' %}">
+</head>
+
+<div class="registration-container">
+    <form class="login-form" method="post" action="{% url 'register' %}">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Zarejestruj</button>
+        <h2>Zarejestruj się</h2>
+        {{ form.as_p }}  <!-- Automatycznie renderuje pola z formularza z dodanymi atrybutami -->
+        <button type="submit" class="btn btn-primary btn-ghost">Zarejestruj</button>
     </form>
+</div>
 {% endblock %}
