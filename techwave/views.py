@@ -10,6 +10,11 @@ from .forms import OrderForm
 from .forms import FakePaymentForm
 from .forms import SignUpForm
 from .forms import CommentForm
+from .models import Product, Cart, CartItem, FakePayment, Order
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Cart, CartItem
+from django.contrib import messages
+
 
 def home(request):
     context = {'title': 'Home'}  # Include title in the context
@@ -83,18 +88,27 @@ def productsite(request):
 
     return render(request, 'techwave/productsite.html', context)
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Product, Cart, CartItem
+from django.contrib import messages
+
 def add_to_cart(request, product_id):
     product = get_object_or_404(Product, pk=product_id)
-    cart, created = Cart.objects.get_or_create(user=request.user)
-    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
-    if not created:
+    cart, _ = Cart.objects.get_or_create(user=request.user)
+    
+    try:
+        # Spróbuj znaleźć istniejący element koszyka dla tego produktu
+        cart_item = CartItem.objects.get(cart=cart, product=product)
+        # Jeśli element koszyka już istnieje, zwiększ jego ilość o 1
         cart_item.quantity += 1
         cart_item.save()
+        messages.success(request, f'Ilość produktu {product.name} w koszyku została zwiększona.')
+    except CartItem.DoesNotExist:
+        # Jeśli element koszyka nie istnieje, stwórz nowy
+        CartItem.objects.create(cart=cart, product=product, quantity=1)
         messages.success(request, f'{product.name} został dodany do koszyka.')
-        # Dodaj alert po dodaniu produktu do koszyka
-        return HttpResponse('<script>alert("Product added to cart"); window.location.href = "/";</script>')
-    return redirect('home')
 
+    return redirect('home')  # Przekierowanie na stronę główną lub gdziekolwiek indziej
 
 
 def remove_from_cart(request, cart_item_id):
@@ -180,3 +194,19 @@ def profile(request):
     zamowienia = Order.objects.filter(user=request.user)  
     context = {'title': 'Profile', 'zamowienia': zamowienia}
     return render(request, 'techwave/profile.html', context)
+
+
+def main(request):
+    products = Product.objects.all()  # Pobierz wszystkie produkty z bazy danych
+    return render(request, 'techwave/main.html', {'products': products})
+
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    comments = product.comments_set.all()
+    form = CommentForm()
+    context = {
+        'product': product,
+        'comments': comments,
+        'form': form,
+    }
+    return render(request, 'techwave/productsite.html', context)

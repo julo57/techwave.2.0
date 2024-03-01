@@ -3,7 +3,7 @@
 
 {% block content %}
 <head>
-    <link rel="stylesheet" href="static/css/productsite.css">
+    <link rel="stylesheet" href="{% static 'css/styleforproduct.css' %}">
 </head>
 
 <section class="product">
@@ -13,17 +13,30 @@
             <div class="product-image">
                 <img src="{{ product.image.url }}" alt="Product Image">
             </div>
+            <div class="product-specs">
+                <div class="fake-specs">
+                    <h3>Fake Specyfikacja Produktu:</h3>
+                    <ul>
+                        <li>Kolor: Czarny</li>
+                        <li>Rozmiar: Uniwersalny</li>
+                        <li>Materiał: Poliester</li>
+                        <li>Waga: 500g</li>
+                        <!-- Dodaj inne informacje, które chcesz wyświetlić -->
+                    </ul>
+                </div>
+            </div>
             <div class="product-info">
                 <p class="product-price">{{ product.price }} szt.</p>
-                <button id="add-to-cart" class="btn btn-primary" data-id="{{ product.id }}">Dodaj do koszyka</button>
+                <!-- Dodaj atrybut data-product-id z ID produktu -->
+                <button class="btn btn-primary add-to-cart" data-product-id="{{ product.id }}">Dodaj do koszyka</button>
             </div>
-           
         </div>
         <div class="product-description">
             <p>{{ product.description }}</p>
         </div>
     </div>
 </section>
+
 <form method="post">
     {% csrf_token %}
     <input type="hidden" name="product_id" value="{{ product.id }}">
@@ -47,40 +60,42 @@
         </div>
     {% endfor %}
 {% endif %}
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Pobranie przycisku "Add to Cart"
-            var addToCartButton = document.getElementById('add-to-cart');
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var addToCartButtons = document.querySelectorAll('.add-to-cart');
 
-            // Dodanie nasłuchiwacza zdarzeń na kliknięcie przycisku
-            addToCartButton.addEventListener('click', function() {
-                // Pobranie identyfikatora produktu
-                var productId = addToCartButton.getAttribute('data-id');
-
-                // Pobranie informacji o produkcie
-                var productName = "{{ product.name }}";
-                var productPrice = "{{ product.price }}";
-                var productImage = "{{ product.image.url }}";
-
-                // Sprawdź, czy koszyk istnieje w localStorage
-                var cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-                // Dodanie produktu do koszyka
-                var product = {
-                    id: productId,
-                    name: productName,
-                    price: productPrice,
-                    image: productImage
-                };
-                cart.push(product);
-
-                // Zapisanie koszyka w localStorage
-                localStorage.setItem('cart', JSON.stringify(cart));
-
-                // Powiadomienie użytkownika o dodaniu produktu do koszyka
-                alert('Product added to cart');
+        addToCartButtons.forEach(function(button) {
+            button.addEventListener('click', function() {
+                var productId = button.getAttribute('data-product-id');
+                addToCart(productId);
             });
         });
-    </script>
+
+        function addToCart(productId) {
+            var cart = JSON.parse(localStorage.getItem('cart')) || [];
+            var existingProduct = cart.find(function(product) {
+                return product.id === productId;
+            });
+        
+            if (existingProduct) {
+                // Jeśli produkt już istnieje, zwiększ jego ilość o 1
+                existingProduct.quantity += 1;
+            } else {
+                // Jeśli produkt nie istnieje, dodaj nowy produkt do koszyka
+                var product = {
+                    id: productId,
+                    name: "{{ product.name }}",  // Ustaw nazwę produktu
+                    price: "{{ product.price }}",  // Ustaw cenę produktu
+                    image: "{{ product.image.url }}",  // Ustaw URL obrazu produktu
+                    quantity: 1  // Domyślna ilość to 1
+                };
+                cart.push(product);
+            }
+        
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert('Product added to cart');
+        }
+    });
+</script>
 {% endblock %}
 

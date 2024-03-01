@@ -4,7 +4,7 @@
 {% block content %}
 
 <head>
-   <link rel="stylesheet" href="{% static 'css/cartstyle.css' %}">
+   <link rel="stylesheet" href="{% static 'css/cartstylee.css' %}">
 </head>
 
 <section class="cart">
@@ -12,6 +12,7 @@
         <ul class="cart-items" id="cart-items">
             <!-- Produkty zostaną wyświetlone tutaj -->
         </ul>
+        <div id="total-price"></div>  <!-- Dodajemy sekcję do wyświetlania całkowitej ceny -->
         <div class="cart-buttons">
             <button class="continue-shopping-button">Kontynuuj zakupy</button>
             <button class="checkout-button">Przejdź do kasy</button>
@@ -19,82 +20,122 @@
     </div>
 </section>
 
-
 <script>
-    var cart = JSON.parse(localStorage.getItem('cart')) || [];
     var cartItemsElement = document.getElementById('cart-items');
-    
-    // Funkcja usuwająca produkt z koszyka i odświeżająca wyświetlanie
+    var totalPriceElement = document.getElementById('total-price');  // Pobieramy element do wyświetlania całkowitej ceny
+
     function removeFromCart(index) {
+        var cart = JSON.parse(localStorage.getItem('cart'));
         cart.splice(index, 1);
         localStorage.setItem('cart', JSON.stringify(cart));
         displayCart();
     }
-    
-    // Funkcja wyświetlająca produkty w koszyku
+
+    function updateQuantity(index, quantity) {
+        var cart = JSON.parse(localStorage.getItem('cart'));
+        cart[index].quantity = quantity;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        displayCart();
+    }
+
     function displayCart() {
-        cartItemsElement.innerHTML = ''; // Wyczyść zawartość przed aktualizacją
-    
+        cartItemsElement.innerHTML = '';
+
+        var cart = JSON.parse(localStorage.getItem('cart')) || [];
+        var totalPrice = 0;  // Zmienna do przechowywania całkowitej ceny
+
         cart.forEach(function(product, index) {
             var li = document.createElement('li');
             li.classList.add('cart-item');
-    
-            // Tworzenie elementu obrazu
+
             var img = document.createElement('img');
             img.src = product.image;
             img.alt = product.name;
-            img.classList.add('product-image'); // Dodaj klasę do obrazka
-    
-            // Tworzenie elementów nazwy, ceny i przycisku usuwania
+            img.classList.add('product-image');
+
             var detailsDiv = document.createElement('div');
             detailsDiv.classList.add('product-details');
-    
+
             var name = document.createElement('span');
             name.textContent = product.name;
-            name.classList.add('product-name'); // Dodaj klasę do nazwy
-    
+            name.classList.add('product-name');
+
             var price = document.createElement('span');
             price.textContent = product.price;
-            price.classList.add('product-price'); // Dodaj klasę do ceny
-    
-            var removeButton = document.createElement('button');
-            removeButton.textContent = 'Remove';
-            removeButton.classList.add('remove-button'); // Dodaj klasę do przycisku usuwania
-            removeButton.onclick = function() {
-                removeFromCart(index);
-            };
-    
-            // Dodanie wszystkich elementów do elementu <li>
+            price.classList.add('product-price');
+
+            var quantityDisplay = document.createElement('span');
+        quantityDisplay.textContent = 'Ilość: ' + product.quantity;
+        quantityDisplay.classList.add('product-quantity');
+
+        var quantitySelect = document.createElement('select');
+        for (var i = 1; i <= 10; i++) {
+            var option = document.createElement('option');
+            option.value = i;
+            option.text = i;
+            quantitySelect.appendChild(option);
+        }
+        var customOption = document.createElement('option');
+        customOption.value = 'custom';
+        customOption.text = '10+';
+        quantitySelect.appendChild(customOption);
+
+        quantitySelect.style.display = 'none';  // Ukryj listę rozwijaną na początku
+
+        quantityDisplay.onclick = function() {
+            quantityDisplay.style.display = 'none';
+            quantitySelect.style.display = 'block';
+        };
+
+        quantitySelect.onchange = function() {
+            if (this.value === 'custom') {
+                var customQuantity = prompt('Podaj ilość:');
+                if (customQuantity) {
+                    updateQuantity(index, parseInt(customQuantity));
+                }
+            } else {
+                updateQuantity(index, parseInt(this.value));
+            }
+            quantityDisplay.style.display = 'block';
+            quantitySelect.style.display = 'none';
+        };
+
+
+        var removeButton = document.createElement('button');
+        removeButton.innerHTML = '&#128465;';  // Używamy znaku Unicode dla ikony kosza
+        removeButton.classList.add('remove-button');
+        removeButton.onclick = function() {
+            removeFromCart(index);
+        };
+
             detailsDiv.appendChild(name);
             detailsDiv.appendChild(price);
+            detailsDiv.appendChild(quantityDisplay);
+            detailsDiv.appendChild(quantitySelect);
             li.appendChild(img);
             li.appendChild(detailsDiv);
             li.appendChild(removeButton);
-    
-            // Dodanie <li> do listy
+
             cartItemsElement.appendChild(li);
+
+            totalPrice += product.price * product.quantity;  // Aktualizujemy całkowitą cenę
         });
+
+        totalPriceElement.textContent = 'Total: ' + totalPrice;  // Wyświetlamy całkowitą cenę
     }
-    
-    // Wyświetl produkty w koszyku po załadowaniu strony
+
     displayCart();
-    
-    // Pobierz przyciski
+
     var checkoutButton = document.querySelector('.checkout-button');
     var continueShoppingButton = document.querySelector('.continue-shopping-button');
-    
-    // Przycisk "Przejdź do kasy"
+
     checkoutButton.onclick = function() {
-        // Przekieruj do strony kasy
         window.location.href = '/payment';
     };
-    
-    // Przycisk "Kontynuuj zakupy"
+
     continueShoppingButton.onclick = function() {
-        // Przekieruj do strony głównej
         window.location.href = '/productsite';
     };
-
 </script>
 
 {% endblock %}

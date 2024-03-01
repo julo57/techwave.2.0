@@ -1,17 +1,30 @@
+<!-- main.html -->
+
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
-<h1>Witaj na stronie głównej!</h1>
-    {% if user.is_authenticated %}
-        <p>Witaj, {{ user.username }}!</p>
-        <p>Email: {{ user.email }}</p>
-        <!-- Tutaj możesz dodać więcej informacji o użytkowniku -->
-        <form method="post" action="{% url 'logout' %}">
-            {% csrf_token %}
-            <button type="submit">logout</button>
-        </form>
-    {% else %}
-        <p>Nie jesteś zalogowany.</p>
-        <a href="{% url 'login' %}">Zaloguj się</a>
-    {% endif %}
+<head>
+   <link rel="stylesheet" href="{% static 'css/main.css' %}">
+</head>
+
+<div class="container">
+    <h1>Wszystkie Produkty</h1>
+    <div class="row">
+        {% for product in products %}
+            <div class="col-md-4">
+                <a href="{% url 'product_detail' product.id %}" class="product-link"> <!-- Dodajemy link wokół całej ramki -->
+                    <div class="card mb-4 shadow-sm">
+                        <img class="card-img-top" src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <div class="card-body">
+                            <h2 class="card-title">{{ product.name }}</h2>
+                            <p class="card-text">{{ product.price }}</p>
+                            <!-- Dodaj tutaj przycisk "Dodaj do koszyka" lub inne odpowiednie działania -->
+                        </div>
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

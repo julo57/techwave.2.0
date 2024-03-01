@@ -67,3 +67,32 @@
     font-size: 20px;
     line-height: 1.6;
 }
+
+.product-specs {
+    flex: 1;
+    padding: 20px;
+    margin: 0 auto;
+    background-color: #3b3939; /* Kolor tła */
+    border: 1px solid #ddd; /* Grubość i kolor ramki */
+    border-radius: 30px; /* Zaokrąglenie rogów */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Cień */
+    font-size: 35px;
+}
+
+.fake-specs {
+    text-align: center;
+}
+
+.fake-specs h3 {
+    margin-top: 0;
+}
+
+.fake-specs ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.fake-specs li {
+    margin-bottom: 5px;
+}
+
